@@ -1,0 +1,7 @@
+C:\Users\jerry\source\repos\TicketingClasses\bin\Debug\TicketingClasses.exe.config
+C:\Users\jerry\source\repos\TicketingClasses\bin\Debug\TicketingClasses.exe
+C:\Users\jerry\source\repos\TicketingClasses\bin\Debug\TicketingClasses.pdb
+C:\Users\jerry\source\repos\TicketingClasses\obj\Debug\TicketingClasses.csprojAssemblyReference.cache
+C:\Users\jerry\source\repos\TicketingClasses\obj\Debug\TicketingClasses.exe
+C:\Users\jerry\source\repos\TicketingClasses\obj\Debug\TicketingClasses.pdb
+C:\Users\jerry\source\repos\TicketingClasses\bin\Debug\Files\tickets.csv
