@@ -5,3 +5,10 @@ C:\Users\jerry\source\repos\TicketingClasses\obj\Debug\TicketingClasses.csprojAs
 C:\Users\jerry\source\repos\TicketingClasses\obj\Debug\TicketingClasses.exe
 C:\Users\jerry\source\repos\TicketingClasses\obj\Debug\TicketingClasses.pdb
 C:\Users\jerry\source\repos\TicketingClasses\bin\Debug\Files\tickets.csv
+C:\Users\jerry\Source\Repos\NetDBS2020-Assign04\bin\Debug\Files\tickets.csv
+C:\Users\jerry\Source\Repos\NetDBS2020-Assign04\bin\Debug\TicketingClasses.exe.config
+C:\Users\jerry\Source\Repos\NetDBS2020-Assign04\bin\Debug\TicketingClasses.exe
+C:\Users\jerry\Source\Repos\NetDBS2020-Assign04\bin\Debug\TicketingClasses.pdb
+C:\Users\jerry\Source\Repos\NetDBS2020-Assign04\obj\Debug\TicketingClasses.csprojAssemblyReference.cache
+C:\Users\jerry\Source\Repos\NetDBS2020-Assign04\obj\Debug\TicketingClasses.exe
+C:\Users\jerry\Source\Repos\NetDBS2020-Assign04\obj\Debug\TicketingClasses.pdb

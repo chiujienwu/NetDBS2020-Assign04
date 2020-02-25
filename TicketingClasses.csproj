@@ -43,11 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileManager.cs" />
-    <Compile Include="Menu.cs" />
+    <Compile Include="Model\Defect.cs" />
+    <Compile Include="Model\Enhance.cs" />
+    <Compile Include="Model\FileManager.cs" />
+    <Compile Include="Model\Menu.cs" />
+    <Compile Include="Model\Task.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ticket.cs" />
+    <Compile Include="Model\Ticket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
