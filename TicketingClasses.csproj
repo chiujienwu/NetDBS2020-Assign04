@@ -45,7 +45,6 @@
   <ItemGroup>
     <Compile Include="Model\Defect.cs" />
     <Compile Include="Model\Enhance.cs" />
-    <Compile Include="Model\FileManager.cs" />
     <Compile Include="Model\Menu.cs" />
     <Compile Include="Model\Task.cs" />
     <Compile Include="Program.cs" />
@@ -55,6 +54,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <Content Include="Files\tickets.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\enhance.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\task.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

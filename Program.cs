@@ -1,121 +1,315 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml.Serialization;
 using TicketingClasses.Model;
 
 namespace Ticketing
+/*
+ * Modify your Ticket system application - add support for different Ticket Types
+ *  Bug/Defect
+ *  Enhancement
+ *  Task
+ *
+ * Tickets.csv
+ * TicketID, Summary, Status, Priority, Submitter, Assigned, Watching, Severity
+ *
+ * Enhancements.csv
+ * TicketID, Summary, Status, Priority, Submitter, Assigned, Watching, Software, Cost, Reason, Estimate
+ *
+ * Task.csv
+ * TicketID, Summary, Status, Priority, Submitter, Assigned, Watching, ProjectName, DueDate
+ *
+ */
+
 {
     class Program
     {
-        /* *
-        * file name = tickets.csv saved at runtime to C:\Users\JerryChiu\source\repos\Ticketing\Ticketing\bin\Debug
-        * TicketID, Summary, Status, Priority, Submitter, Assigned, Watching
-        * 1,This is a bug ticket,Open,High,Drew Kjell, Jane Doe,Drew Kjell| John Smith | Bill Jones
-        * 
-        * future proof:  should introduce ArrayList ticketList = new ArrayList() to container collection of tickets
-        */
-
         static void Main(string[] args)
         {
+            char choice;
+            List<Defect> defectList = new List<Defect>();
+            List<Enhance> enhanceList = new List<Enhance>();
+            List<Task> taskList = new List<Task>();
 
-            //ideally should be database but using List for simplicity
-            //var db = new TicketingContext();
-
-            List<Ticket> listOfTickets = new List<Ticket>();
-
-            // this assumes the existance of a file but does not automatically check for it
-            // instead from the main menu, it prompts user
-            string file = Path.Combine(Environment.CurrentDirectory, "Files", "tickets.csv");
-
-            // start of main menu
-            string choice;
-
+            string defectFile = Path.Combine(Environment.CurrentDirectory, "Files", "tickets.csv");
+            string enhanceFile = Path.Combine(Environment.CurrentDirectory, "Files", "enhance.csv");
+            string taskFile = Path.Combine(Environment.CurrentDirectory, "Files", "task.csv");
+            
             do
             {
-
                 var menu = new Menu();
-                // input response
-                choice = Console.ReadLine();
+                choice = menu.GetUserInput();
 
-                if (choice == "1")
+                switch (choice)
                 {
-                    FileManager fileMgr = new FileManager(file, listOfTickets);
+                    case '1':  // read defect file
+                        Console.WriteLine("Menu choice 1 selected");
 
-                } // end of menu option 1 routine
+                        if (File.Exists(defectFile))
+                        {
+                            // read data from file for Defects (Tickets)
+                            StreamReader sr = new StreamReader(defectFile);
+                            while (!sr.EndOfStream)
+                            {
+                                //start to read data file
+                                string line = sr.ReadLine();
+                                // convert string to array
+                                string[] arr = line.Split('|');
 
-                else if (choice == "2")
+                                // display to console array data from file
+                                // array index: 0-TicketID, 1-Summary, 2-Status, 3-Priority, 4-Submitter, 5-Assigned, 6-Watching, 7-Severity
+                                Console.WriteLine(
+                                    "TicketID: {0}, Summary: {1}, Status: {2}, Priority: {3}, Submitter: {4}, Assigned: {5}, Watching: {6}, Severity: {7}",
+                                    arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7]);
 
-                {
-                    // We are appending additional records on the fly to the file
-                    // therefore, no need for an array to hold additional records in memory before
-                    // writing to file
+                                Defect readDefect = new Defect()
+                                {
+                                    ticketID = Convert.ToInt32(arr[0]), ticketSummary = arr[1], ticketStatus = arr[2],
+                                    ticketPriority = arr[3], submittedBy = arr[4], assginedTo = arr[5],
+                                    watching = arr[6], _severity = arr[7]
+                                };
 
-                    string resp;  // to capture user responses
+                                defectList.Add(readDefect);
+                            }
+                            sr.Close();
+                        }
+                        else
+                        {
+                            Console.WriteLine("File does not exist");
+                        }
 
-                    do
-                    {
-                        // ask a question
-                        Console.WriteLine("Enter a ticket (Y/N)?");
-                        // input the response
-                        resp = Console.ReadLine().ToUpper();
-                        // if the response is anything other than "Y", stop asking
-                        if (resp != "Y") { break; }
+                        break;
+                    case '2':  // read data from file for Enhancements
+                        Console.WriteLine("Menu choice 2 selected");
 
-                        //prompt for ticketID
+                        if (File.Exists(enhanceFile))
+                        {
+                            // read data from file
+                            StreamReader sr = new StreamReader(enhanceFile);
+                            while (!sr.EndOfStream)
+                            {
+                                //start to read data file
+                                string line = sr.ReadLine();
+                                // convert string to array
+                                string[] arr = line.Split('|');
 
-                        int currentMaxID = listOfTickets.Count;
+                                // display to console array data from file
+                                // array index: 0-TicketID, 1-Summary, 2-Status, 3-Priority, 4-Submitter, 5-Assigned, 6-Watching, 7-Software, 8-Cost, 9-Reason, 10-Estimate
+                                Console.WriteLine(
+                                    "TicketID: {0}, Summary: {1}, Status: {2}, Priority: {3}, Submitter: {4}, Assigned: {5}, Watching: {6}, Software: {7}, Cost: {8}, Reason: {9}, Estimate: {10}",
+                                    arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], arr[9], arr[10]);
 
-                        int ticketID = currentMaxID + 2;
+                                Enhance readEnhance = new Enhance()
+                                {
+                                    ticketID = Convert.ToInt32(arr[0]),
+                                    ticketSummary = arr[1],
+                                    ticketStatus = arr[2],
+                                    ticketPriority = arr[3],
+                                    submittedBy = arr[4],
+                                    assginedTo = arr[5],
+                                    watching = arr[6],
+                                    _software = arr[7],
+                                    _cost = Convert.ToDecimal(arr[8]),
+                                    _reason = arr[9],
+                                    _estimate = Convert.ToDecimal(arr[10])
+                                };
 
-                        Console.WriteLine($"Creating a new ticket under Ticket ID : {ticketID}");
+                                enhanceList.Add(readEnhance);
+                            }
+                            sr.Close();
+                        }
+                        else
+                        {
+                            Console.WriteLine("File does not exist");
+                        }
 
-                        // prompt for ticket summary
-                        Console.WriteLine("Enter ticket summary: ");
-                        // save the ticket summary to variable
-                        string ticketSummary = Console.ReadLine();
+                        break;
+                    case '3':  // read data from file for Tasks
+                        Console.WriteLine("Menu choice 3 selected");
 
-                        // prompt for ticket status
-                        Console.WriteLine("Enter ticket status: ");
-                        // save the ticket status to variable
-                        string ticketStatus = Console.ReadLine();
+                        if (File.Exists(taskFile))
+                        {
+                            // read data from file
+                            StreamReader sr = new StreamReader(taskFile);
+                            while (!sr.EndOfStream)
+                            {
+                                //start to read data file
+                                string line = sr.ReadLine();
+                                // convert string to array
+                                string[] arr = line.Split('|');
 
-                        // prompt for ticket priority
-                        Console.WriteLine("Enter ticket priority: ");
-                        // save the ticket status to variable
-                        string ticketPriority = Console.ReadLine();
+                                // display to console array data from file
+                                // array index: 0-TicketID, 1-Summary, 2-Status, 3-Priority, 4-Submitter, 5-Assigned, 6-Watching, 7-Project Name, 8-Due Date
+                                Console.WriteLine(
+                                    "TicketID: {0}, Summary: {1}, Status: {2}, Priority: {3}, Submitter: {4}, Assigned: {5}, Watching: {6}, Project Name: {7}, Due Date: {8}",
+                                    arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8]);
 
-                        // prompt for submittedBy
-                        Console.WriteLine("Enter ticket submitter's full name: ");
-                        // save the ticket status to variable
-                        string submittedBy = Console.ReadLine();
+                                Task readTask = new Task()
+                                {
+                                    ticketID = Convert.ToInt32(arr[0]),
+                                    ticketSummary = arr[1],
+                                    ticketStatus = arr[2],
+                                    ticketPriority = arr[3],
+                                    submittedBy = arr[4],
+                                    assginedTo = arr[5],
+                                    watching = arr[6],
+                                    _projectName = arr[7],
+                                    _dueDate = Convert.ToDateTime(arr[8])
+                                };
 
-                        // prompt for assginedto
-                        Console.WriteLine("Enter full name ticket is to be assigned: ");
-                        // save the ticket status to variable
-                        string assginedTo = Console.ReadLine();
+                                taskList.Add(readTask);
+                            }
+                            sr.Close();
+                        }
+                        else
+                        {
+                            Console.WriteLine("File does not exist");
+                        }
 
-                        // prompt for watching
-                        Console.WriteLine("Enter full name of person watching ticket: ");
-                        // save the ticket status to variable
-                        string watching = Console.ReadLine();
+                        break;
+                    case '4':  // create defect
+                        Console.WriteLine("Menu choice 4 selected");
 
-                        // *TicketID, Summary, Status, Priority, Submitter, Assigned, Watching
-                        // 1,This is a bug ticket,Open,High,Drew Kjell, Jane Doe,Drew Kjell| John Smith | Bill Jones*/
+                        int defectCount = defectList.Count + 1;
+                        Defect newDefect = new Defect(defectCount);
+                        newDefect.DefectEntry();
+                        newDefect.Display();
+                        defectList.Add(newDefect);
+                        Console.WriteLine(defectList.Count);
 
-                        StreamWriter sw = new StreamWriter(file, append: true);
+                        break;
+                    case '5':  // create enhancement
+                        Console.WriteLine("Menu choice 5 selected");
 
-                        sw.WriteLine("{0}|{1}|{2}|{3}|{4}|{5}|{6}",
-                            ticketID, ticketSummary, ticketStatus, ticketPriority, submittedBy, assginedTo, watching);
+                        int enhanceCount = enhanceList.Count + 1;
+                        Enhance newEnhance = new Enhance(enhanceCount);
+                        newEnhance.EnhanceEntry();
+                        newEnhance.Display();
+                        enhanceList.Add(newEnhance);
+                        Console.WriteLine(enhanceList.Count);
 
-                        sw.Close();
+                        break;
+                    case '6':  // create tasks
+                        Console.WriteLine("Menu choice 6 selected");
 
-                    } while (resp != "N"); // do while loop for option 2 to continue adding records
+                        int taskCount = taskList.Count + 1;
+                        Task newTask = new Task(taskCount);
+                        newTask.TaskEntry();
+                        newTask.Display();
+                        taskList.Add(newTask);
+                        Console.WriteLine(taskList.Count);
 
+                        break;
+                    case '7':
+                        Console.WriteLine("Menu choice 7 selected");
+
+                        if (File.Exists(defectFile))
+                        {
+                            try
+                            {
+                                Console.WriteLine("Appending to existing defect file...");
+                                StreamWriter sw = new StreamWriter(defectFile, append: true);
+                                foreach (var defectItem in defectList)
+                                {
+                                    string str = defectItem.ToString();
+                                    sw.WriteLine(str);
+                                }
+                                sw.Close();
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e);
+                                throw;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("File does not exist.  Creating defect file...");
+                            StreamWriter sw = new StreamWriter(defectFile);
+                            foreach (var defectItem in defectList)
+                            {
+                                string str = defectItem.ToString();
+                                sw.WriteLine(str);
+                            }
+                            sw.Close();
+                        }
+
+                        break;
+                    case '8':
+                        Console.WriteLine("Menu choice 8 selected");
+
+                        if (File.Exists(enhanceFile))
+                        {
+                            try
+                            {
+                                Console.WriteLine("Appending to existing defect file...");
+                                StreamWriter sw = new StreamWriter(enhanceFile, append: true);
+                                foreach (var enhanceItem in enhanceList)
+                                {
+                                    string str = enhanceItem.ToString();
+                                    sw.WriteLine(str);
+                                }
+                                sw.Close();
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e);
+                                throw;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("File does not exist.  Creating defect file...");
+                            StreamWriter sw = new StreamWriter(enhanceFile);
+                            foreach (var enhanceItem in enhanceList)
+                            {
+                                string str = enhanceItem.ToString();
+                                sw.WriteLine(str);
+                            }
+                            sw.Close();
+                        }
+
+                        break;
+                    case '9':
+                        Console.WriteLine("Menu choice 9 selected");
+
+                        if (File.Exists(taskFile))
+                        {
+                            try
+                            {
+                                Console.WriteLine("Appending to existing defect file...");
+                                StreamWriter sw = new StreamWriter(taskFile, append: true);
+                                foreach (var taskItem in taskList)
+                                {
+                                    string str = taskItem.ToString();
+                                    sw.WriteLine(str);
+                                }
+                                sw.Close();
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e);
+                                throw;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("File does not exist.  Creating defect file...");
+                            StreamWriter sw = new StreamWriter(taskFile);
+                            foreach (var taskItem in taskList)
+                            {
+                                string str = taskItem.ToString();
+                                sw.WriteLine(str);
+                            }
+                            sw.Close();
+                        }
+
+                        break;
                 }
-            } while (choice == "1" || choice == "2");  // do while loop for main menu; any other option exits
+            } while (choice != '0');
 
         }
-
     }
 }
 

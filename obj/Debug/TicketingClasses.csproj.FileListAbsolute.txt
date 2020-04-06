@@ -12,3 +12,5 @@ C:\Users\jerry\Source\Repos\NetDBS2020-Assign04\bin\Debug\TicketingClasses.pdb
 C:\Users\jerry\Source\Repos\NetDBS2020-Assign04\obj\Debug\TicketingClasses.csprojAssemblyReference.cache
 C:\Users\jerry\Source\Repos\NetDBS2020-Assign04\obj\Debug\TicketingClasses.exe
 C:\Users\jerry\Source\Repos\NetDBS2020-Assign04\obj\Debug\TicketingClasses.pdb
+C:\Users\jerry\source\repos\NetDBS2020-Assign04\bin\Debug\Files\enhance.csv
+C:\Users\jerry\source\repos\NetDBS2020-Assign04\bin\Debug\Files\task.csv
