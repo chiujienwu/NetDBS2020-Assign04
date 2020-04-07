@@ -6,6 +6,7 @@ using TicketingClasses.Model;
 
 namespace Ticketing
 /*
+ * Assignment #5
  * Modify your Ticket system application - add support for different Ticket Types
  *  Bug/Defect
  *  Enhancement
@@ -19,6 +20,15 @@ namespace Ticketing
  *
  * Task.csv
  * TicketID, Summary, Status, Priority, Submitter, Assigned, Watching, ProjectName, DueDate
+ *
+ * ======================================================================================
+ *
+ * Assignment #6
+ *
+ * Add search to the Ticket System Application
+ * User should be able to perform a search based on status, priority or submitter
+ * The search results should display the results and the number of matches
+ * One single search should be return results from all ticket types (Concatenation Operator)
  *
  */
 
