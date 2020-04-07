@@ -45,7 +45,7 @@ namespace TicketingClasses.Model
 
         private bool IsValidInput(char input, out char selection)
         {
-            char[] validValues = { '1', '2', '3', '4','5', '6', '7', '8', '9', '0', 'a', 'A' };
+            char[] validValues = { '1', '2', '3', '4','5', '6', '7', '8', '9', '0', 'a', 'A', 'b', 'B', 'c', 'C' };
 
             selection = Char.ToUpper(input);
             if (validValues.Contains(input))

@@ -330,7 +330,7 @@ namespace Ticketing
 
                         var resultsStatus = searchStatusDefects.Concat(searchStatusEnhance).Concat(searchStatusTask);
 
-                        Console.WriteLine("Defects count: {0}", resultsStatus.Count());
+                        Console.WriteLine("Results count: {0}", resultsStatus.Count());
 
                         foreach (var resultItem in resultsStatus)
                         {
@@ -351,9 +351,30 @@ namespace Ticketing
 
                         var resultsPriority = searchPriorityDefects.Concat(searchPriorityEnhance).Concat(searchPriorityTask);
 
-                        Console.WriteLine("Defects count: {0}", resultsPriority.Count());
+                        Console.WriteLine("Results count: {0}", resultsPriority.Count());
 
                         foreach (var resultItem in resultsPriority)
+                        {
+                            resultItem.Display();
+                        }
+
+                        break;
+
+                    case 'C':  // Search by Submitter
+
+                        Console.WriteLine("Menu choice C selected");
+                        Console.WriteLine("Enter criteria to search submitter: ");
+                        string searchSubmitter = Console.ReadLine();
+
+                        IEnumerable<Ticket> searchSubmitterDefects = defectList.Where(p => p.submittedBy.Contains(searchSubmitter));
+                        IEnumerable<Ticket> searchSubmitterEnhance = enhanceList.Where(p => p.submittedBy.Contains(searchSubmitter));
+                        IEnumerable<Ticket> searchSubmitterTask = taskList.Where(p => p.submittedBy.Contains(searchSubmitter));
+
+                        var resultsSubmitter = searchSubmitterDefects.Concat(searchSubmitterEnhance).Concat(searchSubmitterTask);
+
+                        Console.WriteLine("Results count: {0}", resultsSubmitter.Count());
+
+                        foreach (var resultItem in resultsSubmitter)
                         {
                             resultItem.Display();
                         }
