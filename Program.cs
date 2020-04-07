@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using TicketingClasses.Model;
 
@@ -211,7 +212,7 @@ namespace Ticketing
                         Console.WriteLine(taskList.Count);
 
                         break;
-                    case '7':
+                    case '7':  // Write Defects File
                         Console.WriteLine("Menu choice 7 selected");
 
                         if (File.Exists(defectFile))
@@ -246,7 +247,7 @@ namespace Ticketing
                         }
 
                         break;
-                    case '8':
+                    case '8':  // Write Enhancement File
                         Console.WriteLine("Menu choice 8 selected");
 
                         if (File.Exists(enhanceFile))
@@ -281,7 +282,7 @@ namespace Ticketing
                         }
 
                         break;
-                    case '9':
+                    case '9':  // Write Task File
                         Console.WriteLine("Menu choice 9 selected");
 
                         if (File.Exists(taskFile))
@@ -316,6 +317,49 @@ namespace Ticketing
                         }
 
                         break;
+
+                    case 'A':  // Search by Status
+
+                        Console.WriteLine("Menu choice A selected");
+                        Console.WriteLine("Enter criteria to search status: ");
+                        string searchStatus = Console.ReadLine();
+
+                        IEnumerable<Ticket> searchStatusDefects = defectList.Where(p => p.ticketStatus.Contains(searchStatus));
+                        IEnumerable<Ticket> searchStatusEnhance = enhanceList.Where(p => p.ticketStatus.Contains(searchStatus));
+                        IEnumerable<Ticket> searchStatusTask = taskList.Where(p => p.ticketStatus.Contains(searchStatus));
+
+                        var resultsStatus = searchStatusDefects.Concat(searchStatusEnhance).Concat(searchStatusTask);
+
+                        Console.WriteLine("Defects count: {0}", resultsStatus.Count());
+
+                        foreach (var resultItem in resultsStatus)
+                        {
+                            resultItem.Display();
+                        }
+
+                        break;
+
+                    case 'B':  // Search by Priority
+
+                        Console.WriteLine("Menu choice B selected");
+                        Console.WriteLine("Enter criteria to search priority: ");
+                        string searchPriority = Console.ReadLine();
+
+                        IEnumerable<Ticket> searchPriorityDefects = defectList.Where(p => p.ticketPriority.Contains(searchPriority));
+                        IEnumerable<Ticket> searchPriorityEnhance = enhanceList.Where(p => p.ticketPriority.Contains(searchPriority));
+                        IEnumerable<Ticket> searchPriorityTask = taskList.Where(p => p.ticketPriority.Contains(searchPriority));
+
+                        var resultsPriority = searchPriorityDefects.Concat(searchPriorityEnhance).Concat(searchPriorityTask);
+
+                        Console.WriteLine("Defects count: {0}", resultsPriority.Count());
+
+                        foreach (var resultItem in resultsPriority)
+                        {
+                            resultItem.Display();
+                        }
+
+                        break;
+
                 }
             } while (choice != '0');
 
